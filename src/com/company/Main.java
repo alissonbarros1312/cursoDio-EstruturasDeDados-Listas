@@ -12,6 +12,7 @@ public class Main {
         listaEncadeada.add("teste2");
         listaEncadeada.add("teste3");
         listaEncadeada.add("teste4");
+        listaEncadeada.add("teste5");
 
         System.out.println(listaEncadeada.get(0));
         System.out.println(listaEncadeada.get(1));
@@ -24,6 +25,8 @@ public class Main {
         System.out.println();
         System.out.println(listaEncadeada.remove(3));
         System.out.println(listaEncadeada.toString());
+
+        System.out.println(listaEncadeada.get(4));
 
     }
 }
