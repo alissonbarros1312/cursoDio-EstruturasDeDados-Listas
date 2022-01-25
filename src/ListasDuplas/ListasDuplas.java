@@ -27,6 +27,45 @@ public class ListasDuplas<T> {
         tamanhoLista++;                             // incremento do tamanho da lista
     }
 
+    public void add(int index, T elemento){
+        noDuplo<T> noAux = getNo(index);
+        noDuplo<T> novoNo = new noDuplo<>(elemento);
+        novoNo.setNoProx(noAux);
+
+        if(novoNo.getNoProx() != null){
+            novoNo.setNoPrev(noAux.getNoPrev());
+            novoNo.getNoProx().setNoPrev(novoNo);
+        } else {
+            novoNo.setNoPrev(ultimoNo);
+            ultimoNo = novoNo;
+        }
+
+        if (index == 0){
+            primeiroNo = novoNo;
+        } else {
+            novoNo.getNoPrev().setNoProx(novoNo);
+        }
+        tamanhoLista++;
+    }
+
+    public void remove(int index){
+        if(index == 0){
+            primeiroNo = primeiroNo.getNoProx();
+            if(primeiroNo != null){
+                primeiroNo.setNoPrev(null);
+            }
+        } else {
+            noDuplo<T> noAux = getNo(index);
+            noAux.getNoPrev().setNoProx(noAux.getNoProx()); // pegando no anterior e fazendo sua referencia apontar para o proximo do Aux - desmembrando-o o noAux
+            if(noAux != ultimoNo){
+                noAux.getNoProx().setNoPrev(noAux.getNoPrev()); // o prox No do noAux tera sua referencia previa mudada para a refprev do noAux
+            } else {
+                ultimoNo = noAux;
+            }
+        }
+        this.tamanhoLista--;
+    }
+
     public T get(int index){
         return this.getNo(index).getConteudo();     // utiliza o metodo getNo para reutilizar o codigo e pegar o valor no index
     }
@@ -42,5 +81,18 @@ public class ListasDuplas<T> {
 
     public int size(){
         return tamanhoLista;
+    }
+
+    @Override
+    public String toString() {
+        String str = "";
+        noDuplo<T> noAux = primeiroNo;
+
+        for(int i = 0; i < this.size(); i++){
+            str += "[No{ "+noAux+" }] --> ";
+            noAux = noAux.getNoProx();
+        }
+        str+= "null";
+        return str;
     }
 }
