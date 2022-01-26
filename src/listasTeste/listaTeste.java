@@ -1,7 +1,5 @@
 package listasTeste;
 
-import listasEncadeadas.No;
-
 public class listaTeste<T> {
     private NoTeste<T> referenciaLista;
 
