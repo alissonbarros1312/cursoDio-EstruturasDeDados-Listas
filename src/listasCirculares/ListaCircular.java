@@ -3,10 +3,32 @@ package listasCirculares;
 public class ListaCircular<T> {
     private NoCircular<T> cabeca;
     private NoCircular<T> cauda;
-    private int tamanho = 0;
+    private int tamanho;
+
+    public ListaCircular() {
+        this.cauda = null;
+        this.cabeca = null;
+        this.tamanho = 0;
+    }
+
+    public void add(T conteudo){
+        NoCircular<T> novoNo = new NoCircular<>(conteudo);
+
+        if(this.isEmpty()){
+            this.cabeca = novoNo;
+            this.cauda = this.cabeca;
+            this.cabeca.setRefProxNo(this.cauda);
+        } else {
+            novoNo.setRefProxNo(this.cauda);
+            this.cabeca.setRefProxNo(novoNo);
+            this.cauda = novoNo;
+        }
+
+        this.tamanho++;
+    }
 
     public void remove(int index){
-        if(index <= this.size()){
+        if(index >= this.size()){
             throw new IndexOutOfBoundsException("Indice maior que a lista");
         }
 
@@ -46,4 +68,22 @@ public class ListaCircular<T> {
     public boolean isEmpty (){return this.tamanho == 0 ? true : false;}
 
     public int size(){return this.tamanho;}
+
+    @Override
+    public String toString() {
+        String str = "";
+        NoCircular<T> noAux = this.cauda;
+
+        while(true){
+            if(noAux != null){
+                for(int i = 0; i < this.size(); i++){
+                    str += "[No{conteudo: "+noAux.getConteudo()+" }]--> ";
+                    noAux = noAux.getRefProxNo();
+                }
+                break;
+            }
+        }
+        str += this.size() != 0 ? "(retorna ao inicio)" : "()";
+        return str;
+    }
 }
